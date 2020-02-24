@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mermaid test</title>
+</head>
+<body>
+<script src="mermaid.min.js"></script>
+<script>
+    //mermaid.mermaidAPI.initialize({startOnLoad:false});
+</script>
+
+<textarea id="code"></textarea>
+<button id="ok">OK</button>
+
+<div class="mermaid" id="diagram">
+    sequenceDiagram
+    Alice->>+John: Hello John, how are you?
+    Alice->>+John: John, can you hear me?
+    John-->>-Alice: Hi Alice, I can hear you!
+    John-->>-Alice: I feel great!
+</div>
+
+
+<script>
+    const code = document.getElementById('code');
+    const diagram = document.getElementById('diagram');
+    const but = document.getElementById('ok');
+
+    //const code = 'graph TD\nA --> B';
+    let count_svg = 0;
+
+    but.onclick = function () {
+        count_svg++;
+        diagram.innerHTML = mermaid.mermaidAPI.render(`svg-${count_svg}`, code.value);
+    }
+</script>
+
+
+
+
+</body>
+</html>
