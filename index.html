@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graph Hierarhy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script src="mermaid.min.js"></script>
+<script src="graph.js"></script>
+
+<div>
+<div class="b1">
+    <textarea id="code1" cols="30" rows="20">
+1-->3;1-->4;1-->7;1-->9;
+2-->1;2-->3;2-->4;2-->7;2-->10;
+3-->6;3-->7;
+4-->6;
+5-->1;5-->7;5-->8;5-->10;
+6-->9;
+7-->4;7-->9;
+8-->7;8-->9;
+10-->3;10-->4;
+    </textarea>
+</div>
+    <div class="b1" id="matrix1"></div>
+    <div class="b1" id="matrix2"></div>
+</div>
+
+<br>
+
+<div>
+    <div class="mermaid b1" id="diagram1"></div>
+    <div class="mermaid b1" id="diagram2"></div>
+    <div class="mermaid b1" id="diagram3"></div>
+</div>
+
+<script>
+    const code1 = document.getElementById('code1');
+    const diagram1 = document.getElementById('diagram1');
+    const diagram2 = document.getElementById('diagram2');
+    const mst = document.getElementById('matrix1');
+    const msd = document.getElementById('matrix2');
+    let count_svg = 0;
+    code1.onchange = function () {
+        count_svg++;
+        const ms = new BinMatrix(code1.value);
+        const md = ms.reach();
+        diagram1.innerHTML = mermaid.mermaidAPI.render(`svg1-${count_svg}`, `graph LR\n${ms.toCode()}`);
+        diagram2.innerHTML = mermaid.mermaidAPI.render(`svg2-${count_svg}`, `graph LR\n${md.toCode()}`);
+        mst.innerHTML = `Смежность ${ms.toTable()}`;
+        msd.innerHTML = `Достижимость ${md.toTable()}`;
+    };
+
+    document.onload(()=>code1.onchange());
+
+</script>
+
+
+
+</body>
+</html>
