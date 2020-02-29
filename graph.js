@@ -1,7 +1,24 @@
-function get_matrix(mm_text) {
-    mm_text.match()
-    
-}
+const example1 = `
+1-->3;1-->4;1-->7;1-->9;
+2-->1;2-->3;2-->4;2-->7;2-->10;
+3-->6;3-->7;
+4-->6;
+5-->1;5-->7;5-->8;5-->10;
+6-->9;
+7-->4;7-->9;
+8-->7;8-->9;
+10-->3;10-->4;`;
+
+const example2 = `
+1-->2 & 3 & 5 & 6 & 8 & 9;
+2-->3;
+3-->7 & 8 & 9;
+4-->1 & 6 & 8;
+6-->5;
+7-->9;
+8-->9
+`;
+
 
 
 class BinMatrix {
@@ -17,9 +34,15 @@ class BinMatrix {
         }
 
         let res;
-        const re = /(\d+)\s*-->\s*(?=(\d+))/g;
+        const re = /([&\s\d]+)\s*-->\s*(?=([&\s\d]+))/g;
         while ( (res = re.exec(code)) !== null ) {
-            this.data[res[1]-1][res[2]-1] = true;
+            //console.log(`${res[1]} => ${res[2]}`);
+            const items1 = res[1].split(/\s+&\s+/);
+            const items2 = res[2].split(/\s+&\s+/);
+
+            for (const item1 of items1)
+                for (const item2 of items2)
+                    this.data[item1-1][item2-1] = true;
         }
     }
 
