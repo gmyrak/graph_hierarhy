@@ -9,12 +9,12 @@
 <script src="mermaid.min.js"></script>
 <script src="graph.js"></script>
 
-<button onclick="code1.innerHTML = example1; refresh()">example 1</button>
-<button onclick="code1.innerHTML = example2; refresh()">example 2</button>
+<button onclick="code1.value = example1; refresh()">example 1</button>
+<button onclick="code1.value = example2; refresh()">example 2</button>
 
 <div>
 <div class="b1">
-    <textarea id="code1" cols="40" rows="20">
+    <textarea id="code_area" cols="40" rows="20">
     </textarea>
 </div>
     <div class="b1" id="matrix1"></div>
@@ -30,13 +30,15 @@
 </div>
 
 <script>
-    const code1 = document.getElementById('code1');
+    const code1 = document.getElementById('code_area');
     const diagram1 = document.getElementById('diagram1');
     const diagram2 = document.getElementById('diagram2');
     const mst = document.getElementById('matrix1');
     const msd = document.getElementById('matrix2');
     let count_svg = 0;
-    code1.onchange = refresh;
+
+
+    code1.oninput = refresh;
 
     function refresh() {
         count_svg++;
