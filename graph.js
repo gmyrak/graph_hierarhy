@@ -105,6 +105,28 @@ class BinMatrix {
         return res;
     }
 
+    eq(mx) {
+        if (this.size !== mx.size) return false;
+        for (let i =0; i<this.size; i++)
+            for(let j=0; j<this.size; j++)
+                if (this.data[i][j] !== mx.data[i][j]) return false;
+        return true;
+    }
+
+    simplify() {
+        const opt = this.clone();
+        const r = opt.reach();
+        for (let i=0; i<opt.size; i++) {
+            for (let j=0; j<opt.size; j++) {
+                if (opt.data[i][j]) {
+                    opt.data[i][j] = false;
+                    if (! r.eq(opt.reach())) opt.data[i][j] = true;
+                }
+            }
+        }
+        return opt;
+    }
+
     hr() {
         const md = this.reach();
         const N = md.size;
@@ -143,6 +165,8 @@ class BinMatrix {
 
         return levels;
     }
+
+
 }
 
 function code_levels(levels) {

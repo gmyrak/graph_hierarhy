@@ -14,12 +14,15 @@
 <button onclick="code1.value = example1; refresh()">Иер.Рис.4</button>
 <button onclick="code1.value = example2; refresh()">Кр.Рис.2</button>
 <button onclick="code1.value = example3; refresh()">Кр.Рис.4</button>
+<button onclick="optimize()">Hierarchy</button>
 
 <div>
-<div class="b1">
+
+    <div class="b1">
     <textarea id="code_area" cols="40" rows="20">
     </textarea>
-</div>
+    </div>
+
     <div class="b1" id="matrix1"></div>
     <div class="b1" id="matrix2"></div>
 </div>
@@ -36,6 +39,7 @@
     const code1 = document.getElementById('code_area');
     const diagram1 = document.getElementById('diagram1');
     const diagram2 = document.getElementById('diagram2');
+    const diagram3 = document.getElementById('diagram3');
     const mst = document.getElementById('matrix1');
     const msd = document.getElementById('matrix2');
     let count_svg = 0;
@@ -49,20 +53,25 @@
         const md = ms.reach();
         diagram1.innerHTML = mermaid.mermaidAPI.render(`svg1-${count_svg}`, `graph LR\n${code1.value}`);
 
-        const hr_code = `graph LR\n${code_levels(ms.hr())}${ms.toCode()}`;
-        //console.log(hr_code);
-
-        diagram2.innerHTML = mermaid.mermaidAPI.render(`svg2-${count_svg}`, hr_code);
         mst.innerHTML = `Смежность ${ms.toTable()}`;
         msd.innerHTML = `Достижимость ${md.toTable()}`;
 
-        console.log(md.hr());
+        diagram2.innerHTML = '';
+        diagram3.innerHTML = '';
     }
 
-    window.onload = function () {
-        //code1.innerHTML = example2;
-        //refresh();
-    };
+    function optimize() {
+        count_svg++;
+        const ms = new BinMatrix(code1.value);
+
+        const hr_code = `graph LR\n${code_levels(ms.hr())}${ms.toCode()}`;
+        diagram2.innerHTML = mermaid.mermaidAPI.render(`svg2-${count_svg}`, hr_code);
+
+        const opt = ms.simplify();
+        const hr_code2 = `graph LR\n${code_levels(opt.hr())}${opt.toCode()}`;
+        diagram3.innerHTML = mermaid.mermaidAPI.render(`svg3-${count_svg}`, hr_code2);
+    }
+
 
 </script>
 
